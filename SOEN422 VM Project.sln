@@ -9,26 +9,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AUnit", "AUnit\AUnit.vcxpro
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Debug|x64.ActiveCfg = Debug|x64
-		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Debug|x64.Build.0 = Debug|x64
 		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Debug|x86.ActiveCfg = Debug|Win32
 		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Debug|x86.Build.0 = Debug|Win32
-		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Release|x64.ActiveCfg = Release|x64
-		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Release|x64.Build.0 = Release|x64
 		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Release|x86.ActiveCfg = Release|Win32
 		{55E77A64-F55F-419D-B7FE-9FF90275D3BA}.Release|x86.Build.0 = Release|Win32
-		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Debug|x64.ActiveCfg = Debug|x64
-		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Debug|x64.Build.0 = Debug|x64
 		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Debug|x86.ActiveCfg = Debug|Win32
 		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Debug|x86.Build.0 = Debug|Win32
-		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Release|x64.ActiveCfg = Release|x64
-		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Release|x64.Build.0 = Release|x64
 		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Release|x86.ActiveCfg = Release|Win32
 		{9405BEFE-2B28-4EE6-97B0-EC9AC85E9B27}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
