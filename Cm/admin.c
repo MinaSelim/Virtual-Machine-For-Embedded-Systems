@@ -151,7 +151,6 @@ int main(int argc, char* argv[]) {
     /* Parse file */
     if (i == argc-1) {
         char *pfile;
-
         strcpy(filename, argv[i]);   /* save name and extension */
 //t        VMOut_PutS("Parse file: Filename: '%s'\n", filename);
 
