@@ -78,16 +78,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="admin.c" />
+    <ClCompile Include="bsl_output_windows.c" />
     <ClCompile Include="hal.c" />
     <ClCompile Include="ioreg.c" />
     <ClCompile Include="out.c" />
     <ClCompile Include="vm.c" />
     <ClCompile Include="vmstack.c" />
     <ClCompile Include="_console.c" />
-    <ClCompile Include="_cout.c" />
+    <ClCompile Include="hal_output.c" />
     <ClCompile Include="_xtoa.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bsl_output_windows.h" />
     <ClInclude Include="hal.h" />
     <ClInclude Include="ioreg.h" />
     <ClInclude Include="opcode.h" />

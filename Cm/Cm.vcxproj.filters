@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="BSL Host">
+      <UniqueIdentifier>{9ee88ba4-2756-4566-870b-06fe4e244c83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="admin.c">
@@ -36,10 +39,13 @@
     <ClCompile Include="_console.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_cout.c">
+    <ClCompile Include="_xtoa.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_xtoa.c">
+    <ClCompile Include="bsl_output_windows.c">
+      <Filter>BSL Host</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_output.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="_stdtype.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsl_output_windows.h">
+      <Filter>BSL Host</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
