@@ -18,6 +18,7 @@ static IVMOutDesc cout = {
 };
 
 IOut Out_GetFactory(const char* whichOne) {
+    bsl_Init_Communication();
     whichOne = 0; // To avoid the warning on the unreferenced formal parameter
     return &cout;
 }

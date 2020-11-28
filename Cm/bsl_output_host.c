@@ -3,6 +3,8 @@
 #include "bsl_output.h"
 #include <stdio.h>
 
+void bsl_Init_Communication(void){}
+
 void bsl_COut_PutB(bool b)
 {
 	printf("%s", b ? "true" : "false");
