@@ -4,7 +4,7 @@
 //
 */
 
-#include "out.h"
+#include "hal_out.h"
 #include "ioreg.h"
 #include <string.h> /* strtok */
 #include <stdlib.h> /* exit */

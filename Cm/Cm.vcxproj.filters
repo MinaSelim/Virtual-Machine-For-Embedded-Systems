@@ -36,9 +36,6 @@
     <ClCompile Include="ioreg.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="out.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     <ClCompile Include="bsl_output_ATmega328p.c">
       <Filter>BSL\BSL ATmega328p</Filter>
     </ClCompile>
+    <ClCompile Include="hal_out.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_xtoa.h">
@@ -72,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="opcode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vm.h">
@@ -94,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="bsl_output.h">
       <Filter>BSL</Filter>
+    </ClInclude>
+    <ClInclude Include="hal_out.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

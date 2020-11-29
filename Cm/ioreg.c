@@ -6,6 +6,7 @@
 
 #include "ioreg.h"
 
+#define IORegToMockUart
 #ifndef IORegToMockUart
 #include <dos.h>
 #endif
