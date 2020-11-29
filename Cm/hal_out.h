@@ -10,7 +10,6 @@
 #include "_out.h"
 
 void VMOut_Init(IOut out);
-
 void VMOut_PutB(bool b);
 void VMOut_PutC(char c);
 void VMOut_PutI(i32  i);
