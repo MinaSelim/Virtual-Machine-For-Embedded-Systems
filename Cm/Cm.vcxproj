@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="atmega328|Win32">
+      <Configuration>atmega328</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -30,6 +34,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='atmega328|Win32'">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='atmega328|x64'">
+    <ConfigurationType>Makefile</ConfigurationType>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -47,6 +58,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='atmega328|Win32'">
+    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c
+avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
+    <IncludePath>C:\avr-gcc\avr\include;F:\projects\avr8-gnu-toolchain-win32_x86\avr\include</IncludePath>
+    <NMakeIncludeSearchPath>C:\avr-gcc\avr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>__AVR_ATmega328P__</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,10 +96,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="admin.c" />
+    <ClCompile Include="bsl_output_ATmega328p.c" />
     <ClCompile Include="bsl_output_host.c" />
     <ClCompile Include="hal.c" />
     <ClCompile Include="ioreg.c" />
-    <ClCompile Include="out.c" />
+    <ClCompile Include="hal_out.c" />
     <ClCompile Include="vm.c" />
     <ClCompile Include="vmstack.c" />
     <ClCompile Include="_console.c" />
@@ -93,7 +112,7 @@
     <ClInclude Include="hal.h" />
     <ClInclude Include="ioreg.h" />
     <ClInclude Include="opcode.h" />
-    <ClInclude Include="out.h" />
+    <ClInclude Include="hal_out.h" />
     <ClInclude Include="vm.h" />
     <ClInclude Include="vmstack.h" />
     <ClInclude Include="_out.h" />

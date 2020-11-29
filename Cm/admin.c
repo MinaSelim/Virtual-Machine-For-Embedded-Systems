@@ -1,3 +1,5 @@
+#ifdef HOST
+
 /* admin.c - admin for the Cm Embedded Virtual Machine which:
 //         - isolates the <stdio.h> with all put* in the VM
 //         - defines _CRT_SECURE_NO_WARNINGS to avoid all MS secure crap on **_s
@@ -10,7 +12,7 @@
 #include <string.h> /* for strtok */
 
 #include "hal.h"
-#include "out.h"
+#include "hal_out.h"
 #include "vm.h"
 
 #ifdef Dos16
@@ -48,18 +50,18 @@ static void Usage() {
 
 #define MemMax        4096
 #define MemAllocated  (4096+1024)
-/*public*/  u8*    mem;
+/*public*/  u8* mem;
 /*public*/  u8     memAllocated[MemAllocated];
 
 // To get the base RAM address on a memory segment increment.
 static u8* GetBaseAddr(u8* memAddr, u32 memInc) {
     u32 a = (u32)memAddr + memInc;
     u32 m = memInc - 1U;
-//t    VMOut_PutS("Admin: a = "); VMOut_PutX((u32)a); VMOut_PutN();
-//t    VMOut_PutS("Admin: m = "); VMOut_PutX((u32)m); VMOut_PutN();
+    //t    VMOut_PutS("Admin: a = "); VMOut_PutX((u32)a); VMOut_PutN();
+    //t    VMOut_PutS("Admin: m = "); VMOut_PutX((u32)m); VMOut_PutN();
 
     u32 r = a & ~m;
-//t    VMOut_PutS("Admin: r = "); VMOut_PutX((u32)r); VMOut_PutN();
+    //t    VMOut_PutS("Admin: r = "); VMOut_PutX((u32)r); VMOut_PutN();
     return (u8*)r;
 }
 
@@ -74,7 +76,7 @@ static bool loadObjFile(FILE* f, u16 maxSize) {
     buf[1] = (u8)fgetc(f);             // Read size.msb
     size = (u16)((buf[0] << 8) | buf[1]);
 
-//t VMOut_PutS("loadObjFile of size = %u\n", (u32)size);
+    //t VMOut_PutS("loadObjFile of size = %u\n", (u32)size);
 
     if (size <= maxSize) {
         for (n = 0; n < size; n++) {
@@ -84,7 +86,8 @@ static bool loadObjFile(FILE* f, u16 maxSize) {
             VMOut_PutS("%02x ", (u8)mem[n]);
 #endif
         }
-    } else {
+    }
+    else {
         VMOut_PutS("Executable file too big (should be <= "); VMOut_PutU((u32)maxSize); VMOut_PutS(" bytes).\n");
         return false;
     }
@@ -96,16 +99,16 @@ static bool loadObjFile(FILE* f, u16 maxSize) {
 }
 
 // Returns the filename extention.
-const char *GetFilenameExt(const char *filename) {
-    const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename) return "";
+const char* GetFilenameExt(const char* filename) {
+    const char* dot = strrchr(filename, '.');
+    if (!dot || dot == filename) return "";
     return dot + 1;
 }
 
 // Returns filename portion of the given path (for Unix or Windows)
 // Returns empty string if path is directory
-const char *GetFileName(const char *path) {
-    const char *pfile = path + strlen(path);
+const char* GetFileName(const char* path) {
+    const char* pfile = path + strlen(path);
     for (; pfile > path; pfile--) {
         if ((*pfile == '\\') || (*pfile == '/')) {
             pfile++;
@@ -121,10 +124,10 @@ int main(int argc, char* argv[]) {
     const char* ext;
     int   i = 1;
 
-//t VMOut_PutS("argv[0] = [%s]\n", argv[0]);
-//t VMOut_PutS("argv[1] = [%s]\n", argv[1]);
+    //t VMOut_PutS("argv[0] = [%s]\n", argv[0]);
+    //t VMOut_PutS("argv[1] = [%s]\n", argv[1]);
 
-    // Do Hal_Init() before any option messages.
+        // Do Hal_Init() before any option messages.
     Hal_Init();
 
     // ********* Important to adjust memory before loading the file in memory.
@@ -132,33 +135,35 @@ int main(int argc, char* argv[]) {
 //t    VMOut_PutS("GetBaseAddr(): sizeof u32 = "); VMOut_PutI((i32)sizeof(u32)); VMOut_PutN();
 
     mem = GetBaseAddr(memAllocated, (u32)1024UL);
-//t    VMOut_PutS("Admin: memAllocated = "); VMOut_PutX((u32)memAllocated); VMOut_PutN();
-//t    VMOut_PutS("Admin: mem          = "); VMOut_PutX((u32)mem); VMOut_PutN();
+    //t    VMOut_PutS("Admin: memAllocated = "); VMOut_PutX((u32)memAllocated); VMOut_PutN();
+    //t    VMOut_PutS("Admin: mem          = "); VMOut_PutX((u32)mem); VMOut_PutN();
 
-    /* Parse options */
+        /* Parse options */
     for (; i < argc; i++) {
-        if ( (strcmp(argv[i], "-?") == 0) || (strcmp(argv[i], "-help") == 0) ) {
+        if ((strcmp(argv[i], "-?") == 0) || (strcmp(argv[i], "-help") == 0)) {
             Usage();
             return 0;
-        } else if (strcmp(argv[i], "-v") == 0) {
+        }
+        else if (strcmp(argv[i], "-v") == 0) {
             DisplayBanner();
             return 0;
-        } else {
+        }
+        else {
             break;
         }
     }
 
     /* Parse file */
-    if (i == argc-1) {
-        char *pfile;
+    if (i == argc - 1) {
+        char* pfile;
         strcpy(filename, argv[i]);   /* save name and extension */
 //t        VMOut_PutS("Parse file: Filename: '%s'\n", filename);
 
         name = GetFileName(filename);
-        ext  = GetFilenameExt(filename);
+        ext = GetFilenameExt(filename);
         strcpy(filename, name);
 
-//t        VMOut_PutS("Filename: '%s' Name: '%s' Ext: '%s':\n", filename, name, ext);
+        //t        VMOut_PutS("Filename: '%s' Name: '%s' Ext: '%s':\n", filename, name, ext);
 
         if (ext && (strcmp(ext, "exe") == 0)) {  /* 3 characters extension maximum */
             char pb[50];
@@ -166,9 +171,9 @@ int main(int argc, char* argv[]) {
             strcpy(pb, "");
             pfile = strcat(pb, filename);
 
-//t            VMOut_PutS("fopen: Filename: '%s'\n", pfile);
+            //t            VMOut_PutS("fopen: Filename: '%s'\n", pfile);
 
-            file = fopen(pfile, "rb" );
+            file = fopen(pfile, "rb");
             if (file == NULL) {
                 VMOut_PutS(filename); VMOut_PutS(" does not exist.\n");
                 return -1;
@@ -177,12 +182,14 @@ int main(int argc, char* argv[]) {
             if (!loadObjFile(file, MemMax)) { // not a success because too big
                 return -2;
             }
-        } else {
+        }
+        else {
             VMOut_PutS("Error: Must have a file with '.exe' extension.\n");
             Usage();
             return -3;
         }
-    } else {
+    }
+    else {
         VMOut_PutS("Error: Must have a file to load.\n");
         Usage();
         return -4;
@@ -192,3 +199,52 @@ int main(int argc, char* argv[]) {
     VM_execute(mem);
     return 0;
 }
+
+#endif // HOST
+
+#ifdef __AVR_ATmega328P__
+
+/* admin0.c - is a quick admin.c prototype to make a first running port for the
+//            Cm Embedded Virtual Machine with a "small (4-bytes) hardcoded program"
+//            on the Arduino Nana with a Uart tx function set up at 9600, 8N1 (in the BSL).
+//            No Uart loader is required for the completion of Task 4.
+//
+//            As an example (see below) to achieve this quick prototype,
+//            I have stripped all unnecessary code required in admin.c for the Host version.
+//
+// Copyright (C) 1999-2020 by Michel de Champlain
+//
+*/
+
+#include "hal.h"
+#include "hal_Out.h"
+#include "vm.h"
+
+#define Target      "(ATMega328P)"
+#define VMName      "Cm Virtual Machine "
+#define AppSuffix   ""
+#define AppName     "cm"
+#define Version     " v0.1.00.1101a "
+#define Copyright   "Copyright (c) 2001-2020  Michel de Champlain"
+
+// Banner = VMname AppSuffix Version Copyright
+static void DisplayBanner() {
+    VMOut_PutS(VMName); VMOut_PutS(AppSuffix); VMOut_PutS(Version); VMOut_PutS(Target); VMOut_PutN();
+    VMOut_PutS(Copyright); VMOut_PutN();
+}
+
+// A "small (4-bytes) hardcoded program" which will
+// print '1' on the console output (with PuTTY or HyperTerminal set at 9600 baud and 8N1):
+u8 mem[] = { 0x91, 0xFF, 0x82, 0x00 };
+
+int main(int argc, char* argv[]) {
+    Hal_Init();
+    DisplayBanner();
+
+    VM_Init(mem);
+    VM_execute(mem);
+    return 0;
+}
+
+#endif // __AVR_ATmega328P__
+

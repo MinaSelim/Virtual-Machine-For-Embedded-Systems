@@ -5,7 +5,7 @@
 */
 
 #include "_outdesc.h"
-#include "out.h"
+#include "hal_out.h"
 
 static IOut vmOut;
 

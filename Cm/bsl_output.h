@@ -3,6 +3,7 @@
 
 #include "_stdtype.h"
 
+void bsl_Init_Communication(void);
 void bsl_COut_PutB(bool b);
 void bsl_COut_PutC(char c);
 void bsl_COut_PutS(const char* s);

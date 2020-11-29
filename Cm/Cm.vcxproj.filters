@@ -13,8 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="BSL Host">
+    <Filter Include="BSL">
       <UniqueIdentifier>{9ee88ba4-2756-4566-870b-06fe4e244c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BSL\BSL Host">
+      <UniqueIdentifier>{2ad61b5a-c21b-48e6-bd1b-f2b10487a27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BSL\BSL ATmega328p">
+      <UniqueIdentifier>{7f1abef2-849a-4995-92a5-f95448486810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BSL\BSL ATmega328p\Native Headers">
+      <UniqueIdentifier>{20a7aa1d-32d1-4f84-a895-d4e8bfac9630}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ioreg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="out.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vm.c">
@@ -46,7 +52,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bsl_output_host.c">
-      <Filter>BSL Host</Filter>
+      <Filter>BSL\BSL Host</Filter>
+    </ClCompile>
+    <ClCompile Include="bsl_output_ATmega328p.c">
+      <Filter>BSL\BSL ATmega328p</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_out.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="opcode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vm.h">
@@ -81,7 +90,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bsl_output.h">
-      <Filter>BSL Host</Filter>
+      <Filter>BSL</Filter>
+    </ClInclude>
+    <ClInclude Include="hal_out.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
