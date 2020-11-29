@@ -1,8 +1,7 @@
-#define AT_MEGA_328P
-#ifdef AT_MEGA_328P
+
+#ifdef __AVR_ATmega328P__
 
 #define BAUD9600 (207)
-#define __AVR_ATmega328P__
 
 
 #include "bsl_output.h"

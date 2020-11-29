@@ -12,7 +12,7 @@
 #include <string.h> /* for strtok */
 
 #include "hal.h"
-#include "out.h"
+#include "hal_out.h"
 #include "vm.h"
 
 #ifdef Dos16
