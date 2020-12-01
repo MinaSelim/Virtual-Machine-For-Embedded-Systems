@@ -12,29 +12,18 @@ u8* bsl_load_Program(int argc, char** argv)
 {
 	// Busy wait until the first RX comes in (which 
 	while (!(UCSR0A & (1 << RXC0)));
-	char size1 = UDR0;
-
-	VMOut_PutS("size1:");
-	VMOut_PutX(size1);
+	u8 size1 = UDR0;
 
 	// Busy wait until the first RX comes in (which
 	while (!(UCSR0A & (1 << RXC0)));
-	char size2 = UDR0;
-
-	VMOut_PutN();
-	VMOut_PutS("size2:");
-	VMOut_PutX(size2);
+	u8 size2 = UDR0;
 
 	// Define total size of the program
 	u16 size = (u16)((size1 << 8) | size2);
 
-	VMOut_PutN();
-	VMOut_PutU(size);
-	VMOut_PutN();
-
 	int bytesRead = 0;
 
-	//if (size < SIZE_STATIC_MEMORY)
+	if (size < SIZE_STATIC_MEMORY)
 	{
 		while (bytesRead < size)
 		{
@@ -43,8 +32,6 @@ u8* bsl_load_Program(int argc, char** argv)
 
 			// Read byte that came in
 			mem[bytesRead++] = UDR0;
-
-			VMOut_PutC(mem[bytesRead - 1]);
 		}
 	}
 

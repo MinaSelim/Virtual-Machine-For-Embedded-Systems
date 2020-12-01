@@ -24,6 +24,12 @@ int main(int argc, char* argv[]) {
     {
         mem = hal_load_program(argc, argv);
 
+        if (mem == 0)
+        {
+            VMOut_PutS("error: file too big");
+            continue;
+        }
+
         VM_Init(mem);
         VM_execute(mem);
 
