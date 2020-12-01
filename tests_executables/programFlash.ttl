@@ -4,8 +4,6 @@ strconcat file "\Txx.txt"
 logopen file 0 0
 logautoclosemode 1
 
-
-
 for i 1 12
 	file = dir
 	if i<10 then
@@ -18,7 +16,7 @@ for i 1 12
 	strconcat file ".exe"
 	
 	sendfile file 1
-	mpause 200
+	mpause 500
 next
 
 
