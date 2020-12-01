@@ -24,7 +24,6 @@ int main(int argc, char* argv[]) {
     {
         mem = hal_load_program(argc, argv);
 
-
         VM_Init(mem);
         VM_execute(mem);
 

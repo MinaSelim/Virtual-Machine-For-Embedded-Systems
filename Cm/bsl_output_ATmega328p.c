@@ -14,7 +14,7 @@ void putString(const char* str);
 void bsl_Init_Communication() {
 	// Setup UART
 
-  // Double transmission speed
+	// Double transmission speed
 	UCSR0A = (1 << U2X0);
 
 	// Set baud rate for 9600, 207 value taken from datasheet
@@ -26,6 +26,9 @@ void bsl_Init_Communication() {
 
 	// Enable receiver and transmitter
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
+
+	// Read the UART register to prepare it for first use (might get optimized away)
+	char trash = UDR0;
 }
 
 void bsl_COut_PutB(bool b)
