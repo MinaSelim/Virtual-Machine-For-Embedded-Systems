@@ -1,0 +1,24 @@
+getdir dir
+file = dir
+strconcat file "\Txx.txt"
+logopen file 0 0
+logautoclosemode 1
+
+
+
+for i 1 12
+	file = dir
+	if i<10 then
+		strconcat file "\T0"
+	else
+		strconcat file "\T"
+	endif
+	int2str x i
+	strconcat file x  
+	strconcat file ".exe"
+	
+	sendfile file 1
+	mpause 200
+next
+
+
