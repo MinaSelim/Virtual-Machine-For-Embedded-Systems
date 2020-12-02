@@ -1,4 +1,4 @@
-#ifdef __AVR_ATmega328P__
+#ifdef HOST
 #include "bsl_interrupt.h"
 
 void bsl_Interrupt_Disable(void)
