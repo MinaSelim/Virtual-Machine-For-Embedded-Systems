@@ -60,11 +60,11 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='atmega328|Win32'">
-    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c
+    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -D KEEP_ALIVE -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c hal_loader.c bsl_loader_ATmega328.c
 avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
     <IncludePath>C:\avr-gcc\avr\include;F:\projects\avr8-gnu-toolchain-win32_x86\avr\include</IncludePath>
     <NMakeIncludeSearchPath>C:\avr-gcc\avr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <NMakePreprocessorDefinitions>__AVR_ATmega328P__</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>__AVR_ATmega328P__;KEEP_ALIVE</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -96,11 +96,14 @@ avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="admin.c" />
+    <ClCompile Include="bsl_loader_host.c" />
     <ClCompile Include="bsl_output_ATmega328p.c" />
     <ClCompile Include="bsl_output_host.c" />
     <ClCompile Include="hal.c" />
+    <ClCompile Include="hal_loader.c" />
     <ClCompile Include="ioreg.c" />
     <ClCompile Include="hal_out.c" />
+    <ClCompile Include="bsl_loader_ATmega328.c" />
     <ClCompile Include="vm.c" />
     <ClCompile Include="vmstack.c" />
     <ClCompile Include="_console.c" />
@@ -108,8 +111,10 @@ avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
     <ClCompile Include="_xtoa.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bsl_loader.h" />
     <ClInclude Include="bsl_output.h" />
     <ClInclude Include="hal.h" />
+    <ClInclude Include="hal_loader.h" />
     <ClInclude Include="ioreg.h" />
     <ClInclude Include="opcode.h" />
     <ClInclude Include="hal_out.h" />

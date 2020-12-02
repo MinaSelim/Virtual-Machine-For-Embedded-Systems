@@ -15,5 +15,5 @@
 type Txx.txt
 @echo on
 @echo Checking test result...
-@..\x64\Release\aunit Txx.txt
+@..\Release\aunit Txx.txt
 pause
