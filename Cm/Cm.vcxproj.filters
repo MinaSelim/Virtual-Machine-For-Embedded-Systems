@@ -107,5 +107,8 @@
     <ClInclude Include="bsl_loader.h">
       <Filter>BSL</Filter>
     </ClInclude>
+    <ClInclude Include="bsl_ioreg.h">
+      <Filter>BSL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

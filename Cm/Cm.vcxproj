@@ -111,6 +111,7 @@ avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
     <ClCompile Include="_xtoa.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bsl_ioreg.h" />
     <ClInclude Include="bsl_loader.h" />
     <ClInclude Include="bsl_output.h" />
     <ClInclude Include="hal.h" />
