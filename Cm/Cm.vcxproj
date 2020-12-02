@@ -96,10 +96,15 @@ avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="admin.c" />
+    <ClCompile Include="bsl_interrupt_Atmega328p.c" />
+    <ClCompile Include="bsl_interrupt_host.c" />
+    <ClCompile Include="bsl_io_reg_Atmega328p.c" />
+    <ClCompile Include="bsl_io_reg_host.c" />
     <ClCompile Include="bsl_loader_host.c" />
     <ClCompile Include="bsl_output_ATmega328p.c" />
     <ClCompile Include="bsl_output_host.c" />
     <ClCompile Include="hal.c" />
+    <ClCompile Include="hal_io_reg.c" />
     <ClCompile Include="hal_loader.c" />
     <ClCompile Include="ioreg.c" />
     <ClCompile Include="hal_out.c" />
@@ -111,9 +116,13 @@ avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
     <ClCompile Include="_xtoa.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bsl_interrupt.h" />
+    <ClInclude Include="bsl_io_reg.h" />
     <ClInclude Include="bsl_loader.h" />
     <ClInclude Include="bsl_output.h" />
     <ClInclude Include="hal.h" />
+    <ClInclude Include="hal_interrupt.h" />
+    <ClInclude Include="hal_io_reg.h" />
     <ClInclude Include="hal_loader.h" />
     <ClInclude Include="ioreg.h" />
     <ClInclude Include="opcode.h" />
