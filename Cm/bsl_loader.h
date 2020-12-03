@@ -3,7 +3,7 @@
 
 #include "_stdtype.h"
 
-u8* bsl_load_Program(int argc, char** argv);
-u8* bsl_unload_Program(void);
+u8* bsl_start_main_loop(int argc, char** argv);
+
 
 #endif // !BSL_OUTPUT_WINDOWS_H
