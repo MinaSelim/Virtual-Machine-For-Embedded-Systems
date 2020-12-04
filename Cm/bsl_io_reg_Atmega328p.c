@@ -9,36 +9,13 @@
 
 u32 bsl_IOReg_Read(u32 ioreg)
 {
-	switch (ioreg)
-	{
-		case B:
-			DDRB = 0;
-			return PORTB;
-		case C:
-			DDRC = 0;
-			return PORTC;
-		case D:
-			DDRD = 0;
-			return PORTD;
-		default:
-			return 0;
-	}
-
+	u8* value = (u8*)ioreg;
+	return *value;
 }
 
 void bsl_IOReg_Write(u32 ioreg, u32 value)
 {
-	switch (ioreg)
-	{
-	case B:
-		DDRB = 0xff;
-		PORTB = value;
-	case C:
-		DDRB = 0xff;
-		PORTB = value;
-	case D:
-		DDRC = 0xff;
-		PORTC = value;
-	}
+	u8* reg = (u8*)ioreg;
+	*reg = value;
 }
 #endif
