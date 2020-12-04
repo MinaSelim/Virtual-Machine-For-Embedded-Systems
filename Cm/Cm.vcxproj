@@ -60,7 +60,7 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='atmega328|Win32'">
-    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -D KEEP_ALIVE -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c hal_loader.c bsl_loader_ATmega328.c
+    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -D KEEP_ALIVE -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c hal_loader.c bsl_loader_ATmega328.c bsl_interrupt_ATmega328p.c bsl_io_reg_ATmega328p.c
 avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
     <IncludePath>C:\avr-gcc\avr\include;F:\projects\avr8-gnu-toolchain-win32_x86\avr\include</IncludePath>
     <NMakeIncludeSearchPath>C:\avr-gcc\avr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
