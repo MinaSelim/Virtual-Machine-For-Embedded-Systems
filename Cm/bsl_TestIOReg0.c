@@ -1,4 +1,4 @@
-#ifdef TEST #and #ifdef TEST_TASK7
+#if defined(TEST) && defined(TEST_TASK7)
 
 /* bsl_TestIOReg0.c -- Test #0 - for I/O Register
 //
