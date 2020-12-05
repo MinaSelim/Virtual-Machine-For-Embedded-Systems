@@ -1,4 +1,4 @@
-
+#ifndef TEST
 
 /* admin.c - admin for the Cm Embedded Virtual Machine which:
 //         - isolates the <stdio.h> with all put* in the VM
@@ -44,3 +44,4 @@ int main(int argc, char* argv[]) {
 }
 
 
+#endif

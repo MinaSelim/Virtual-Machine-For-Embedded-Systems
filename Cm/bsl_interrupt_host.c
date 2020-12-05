@@ -28,6 +28,6 @@ void bsl_Interrupt_SetVector(u8 number, u32 handlerAddr)
 
 u32 bsl_Interrupt_GetVector(u8 number)
 {
-
+	return 0;
 }
 #endif

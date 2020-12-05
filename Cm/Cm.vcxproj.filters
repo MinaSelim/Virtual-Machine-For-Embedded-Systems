@@ -22,6 +22,9 @@
     <Filter Include="BSL\BSL ATmega328p">
       <UniqueIdentifier>{7f1abef2-849a-4995-92a5-f95448486810}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{f2a2b8a0-9044-44eb-898a-c61bdf5845e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="admin.c">
@@ -81,6 +84,15 @@
     <ClCompile Include="bsl_interrupt_host.c">
       <Filter>BSL\BSL Host</Filter>
     </ClCompile>
+    <ClCompile Include="bsl_TestIOReg0.c">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_TestInterman0.c">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_interrupt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_xtoa.h">
@@ -128,11 +140,11 @@
     <ClInclude Include="bsl_io_reg.h">
       <Filter>BSL</Filter>
     </ClInclude>
-    <ClInclude Include="hal_interrupt.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="bsl_interrupt.h">
       <Filter>BSL</Filter>
+    </ClInclude>
+    <ClInclude Include="hal_interrupt.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
