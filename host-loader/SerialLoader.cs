@@ -165,41 +165,51 @@ public class SerialComPort {
         readThread.Start();
 
         Console.WriteLine("Host Serial Loader v1.0 (Cm Virtual Machine on Arduino Nano)");
-        Console.WriteLine("Usage: type 'p'(ping), 'd'(download), 'r'(run), and 'q' to quit.");
+        Console.WriteLine("Usage: type 'p'(ping), 'd'(download),'s' (status), 'e' (sendData), 'r'(run), 't'(reset), and 'q' to quit.");
 
         string cmd;
 
         // Send cmd to target using a command prompt (for debugging purpose).
         Console.Write("$ ");
-        while (_continue) {
+        while (_continue)
+        {
             cmd = Console.ReadLine();
 
-            if (stringComparer.Equals("q", cmd)) {
+            if (stringComparer.Equals("q", cmd))
+            {
                 _continue = false;
-            } else if (stringComparer.Equals("p", cmd)) { // ping
+            }
+            else if (stringComparer.Equals("p", cmd))
+            { // ping
                 _serialPort.Write(pingPacket, 0, 4);
-            } else if (stringComparer.Equals("s", cmd)) { // getStatus
+            }
+            else if (stringComparer.Equals("t", cmd))
+            { // ping
+                _serialPort.Write(resetPacket, 0, 4);
+            }
+            else if (stringComparer.Equals("s", cmd))
+            { // getStatus
                 _serialPort.Write(getStatusPacket, 0, 4);
-            } else if (stringComparer.Equals("d", cmd)) { // download (sendData - small pgm)
+            }
+            else if (stringComparer.Equals("e", cmd))
+            { // download (sendData - small pgm)
 #if LoadFromFile
-                for(int i = 0; i < sendDataPacketFile.Length; i += PacketSizeMax)
-                {
-                    // Write the packet
-                    _serialPort.Write(sendDataPacketFile, i * PacketSizeMax, (i * PacketSizeMax) + (PacketSizeMax - 1));
-
-                    // Write zero byte
-                    _serialPort.Write(new byte[] { 0 }, 0, 1);
-
-                    // Sleep for a few ms
-                    Thread.Sleep(50);
-                }
+                _serialPort.Write(sendDataPacketFile, 0, sendDataPacketFile.Length);
 #else
                 _serialPort.Write(sendDataPacket, 0, 10);
 #endif
-            } else if (stringComparer.Equals("r", cmd)) { // run
+            }
+            else if (stringComparer.Equals("d", cmd))
+            { // getStatus
+                _serialPort.Write(downloadDataPacket, 0, downloadDataPacket.Length);
+            }
+            else if (stringComparer.Equals("r", cmd))
+            { // run
                 _serialPort.Write(runPacket, 0, 4);
                 _run = true;
-            } else {
+            }
+            else
+            {
                 _serialPort.Write(pingPacketChecksumInvalid, 0, 4);
             }
         }
@@ -210,37 +220,63 @@ public class SerialComPort {
     }
 
     // Synchronously reads one byte from the SerialPort input buffer (from target).
-    public static void ReadByte() {
-        while (_continue) {
-            try {
+    public static void ReadByte()
+    {
+        while (_continue)
+        {
+            try
+            {
                 int size = _serialPort.Read(buffer, 0, 1);
-//t                Console.Write("size[" + string.Format("{0:X2}", buffer[0]) + "]:");
-                if (buffer[0] != 0) {
-                    do {
-                        if (!_run && (buffer[0] == Ack)) {
+                //t                Console.Write("size[" + string.Format("{0:X2}", buffer[0]) + "]:");
+                if (buffer[0] != 0)
+                {
+                    do
+                    {
+                        if (!_run && (buffer[0] == Ack))
+                        {
                             size = _serialPort.Read(buffer, 0, 1); // read the zero
                             Console.Write("Ack from target\n$ ");
                             break;
                         }
 
-                        if (_run && (buffer[0] == Ack)) {
+                        if (_run && (buffer[0] == Ack))
+                        {
                             size = _serialPort.Read(buffer, 0, 1); // read the zero
                             Console.Write("Ack from target. Run!\n");
-//t                            Console.Write("it's run + ack/zero " + string.Format("{0:X2} ", buffer[0]));
+                            //t                            Console.Write("it's run + ack/zero " + string.Format("{0:X2} ", buffer[0]));
                             break;
                         }
+
+                        if (!_run && (buffer[0] == Nak))
+                        {
+                            size = _serialPort.Read(buffer, 0, 1); // read the zero
+                            Console.Write("Nak from target\n$ ");
+                            break;
+                        }
+
+                        if (_run && (buffer[0] == Nak))
+                        {
+                            size = _serialPort.Read(buffer, 0, 1); // read the zero
+                            Console.Write("Nak from target. Run!\n");
+                            //t                            Console.Write("it's run + ack/zero " + string.Format("{0:X2} ", buffer[0]));
+                            break;
+                        }
+
                         size = _serialPort.Read(buffer, 0, 1);
-//t                        Console.Write(string.Format("{0:X2} ", buffer[0]));
-                    } while ((buffer[0] != 0)) ;
+                        Console.Write(string.Format("{0:X2} ", buffer[0]));
+                    } while ((buffer[0] != 0));
                 }
 
-                if (_run) {
-                    while (true) { 
+                if (_run)
+                {
+                    while (true)
+                    {
                         size = _serialPort.Read(buffer, 0, 1);
 
-                        if (buffer[0] == Ack) {
+                        if (buffer[0] == Ack)
+                        {
                             size = _serialPort.Read(buffer, 0, 1); // read the zero
-//t                            Console.Write("running is done + ack/zero " + string.Format("{0:X2} ", buffer[0]));
+                                                                   //t                            Console.Write("running is done + ack/zero " + string.Format("{0:X2} ", buffer[0]));
                             break;
                         }
                         Console.Write((char)buffer[0]);
@@ -248,7 +284,8 @@ public class SerialComPort {
                     _run = false;
                     Console.Write("$ ");
                 }
-            } catch (TimeoutException) { }
+            }
+            catch (TimeoutException) { }
         }
     }
 }

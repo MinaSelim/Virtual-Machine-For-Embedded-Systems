@@ -60,11 +60,12 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='atmega328|Win32'">
-    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -D KEEP_ALIVE -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c hal_loader.c bsl_loader_ATmega328.c bsl_interrupt_ATmega328p.c bsl_io_reg_ATmega328p.c bsl_TestIOReg0.c hal_TestInterman0.c hal_interrupt.c
-avr-objcopy -O ihex output.bin myprogram.hex</NMakeBuildCommandLine>
+    <NMakeBuildCommandLine>avr-gcc -Wall -fdata-sections -mmcu=atmega328p -Os -D KEEP_ALIVE -o output.bin admin.c bsl_output_ATmega328p.c bsl_output_host.c hal.c hal_output.c ioreg.c hal_out.c vm.c vmstack.c _console.c _xtoa.c hal_loader.c bsl_loader_ATmega328.c
+avr-objcopy -O ihex output.bin myprogram.hex
+avrdude -c arduino -p atmega328p -b 57600 -P COM3 -D -Uflash:w:myprogram.hex:i</NMakeBuildCommandLine>
     <IncludePath>C:\avr-gcc\avr\include;F:\projects\avr8-gnu-toolchain-win32_x86\avr\include</IncludePath>
     <NMakeIncludeSearchPath>C:\avr-gcc\avr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <NMakePreprocessorDefinitions>__AVR_ATmega328P__;KEEP_ALIVE;TEST;TEST_TASK6</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>__AVR_ATmega328P__;KEEP_ALIVE</NMakePreprocessorDefinitions>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
