@@ -7,10 +7,11 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Threading;
-
 
 public class SerialComPort {
     private const byte Ack = 0xCC;
@@ -50,8 +51,8 @@ public class SerialComPort {
     static byte[] pingPacketChecksumInvalid = { 0x03, 0xee, (byte)Cmd.Ping, 0 };
     static byte[] pingPacket = { 0x03, 0x20, (byte)Cmd.Ping, 0 };
     static byte[] getStatusPacket = { 0x03, 0x23, (byte)Cmd.GetStatus, 0 };
-    static byte[] sendDataPacket = { 0x09, 0xBC, 0x24, 0x91, 0xFF, 0x82, 0xFF, 0x87, 0x00, 0 };
-    static byte[] runPacket = { 0x03, 0x22, (byte)Cmd.Run, 0 };
+    static byte[] runPacket = { 0x07, 0x22, (byte)Cmd.Run, 0x00, 0x00, 0x00, 0x00, 0 };
+    static byte[] resetPacket = { 0x03, 0x25, 0x25, 0 };
 
     static bool       _continue;
     static bool       _run;
@@ -59,12 +60,15 @@ public class SerialComPort {
 
     static byte[] buffer = new byte[12];
 
+    static byte[] downloadPacket = new byte[12];
+    static List<byte[]> sendDataPackets = new List<byte[]>();
+
 #if LoadFromFile
     // Get the executable code into a formatted byte buffer ready to send with checksum.
     // Example: If a file.exe has a length    of 8  bytes [size(2)          + pgm(6)          ]
     //          then it needs a buffer length of 10 bytes [size|cksm|cmd(3) + pgm(6) + zero(1)] 
     //                                                       0    1    2      3..n-2     n-1
-    static byte[] GetCode(string exeFilename) {
+    static void GetCode(string exeFilename) {
         // Read the file into a byte array.
         var fs = new FileStream(exeFilename, FileMode.Open);
         int fileLength  = (int)fs.Length;
@@ -72,47 +76,55 @@ public class SerialComPort {
         // The length of the executable section
         int filePgmSize = fileLength - 2;
 
-        // 1 Download packet + SendData packets
-        int numDataPackets = 1 + (int)(Math.Ceiling(filePgmSize / 8F) + 0.5);
-
-        byte[] buffer = new byte[numDataPackets * PacketSizeMax];
-
         // Read the first two bytes to skip the size of the executable.
-        fs.Read(buffer, 0, 2);
+        fs.Read(downloadPacket, 0, 2);
 
         // Setup Download command
-        buffer[0] = 11;
-        buffer[2] = 0x21;
-        buffer[3] = 0x00;
-        buffer[4] = 0x00;
-        buffer[5] = 0x00;
-        buffer[6] = 0x00;
-        buffer[7] = (byte)(filePgmSize >> 24);
-        buffer[8] = (byte)(filePgmSize >> 16);
-        buffer[9] = (byte)(filePgmSize >> 8);
-        buffer[10] = (byte)(filePgmSize);
+        downloadPacket[0] = 11;
+        downloadPacket[2] = 0x21;
+        downloadPacket[3] = 0x00;
+        downloadPacket[4] = 0x00;
+        downloadPacket[5] = 0x00;
+        downloadPacket[6] = 0x00;
+        downloadPacket[7] = (byte)(filePgmSize >> 24);
+        downloadPacket[8] = (byte)(filePgmSize >> 16);
+        downloadPacket[9] = (byte)(filePgmSize >> 8);
+        downloadPacket[10] = (byte)(filePgmSize);
+
+        downloadPacket[1] = 0;
 
         // Compute download checksum
         for(int i = 2; i <= 10; i++)
         {
-            buffer[1] += buffer[i];
+            downloadPacket[1] += downloadPacket[i];
         }
 
-        // Create SendData packets
-        for(int i = 1; i < numDataPackets; i++)
+        byte[] fileBuffer = new byte[fs.Length - 2];
+        fs.Read(fileBuffer, 0, (int)(fs.Length - 2));
+
+        int j = 0;
+
+        while (j < fileBuffer.Length)
         {
-            buffer[(i * PacketSizeMax) + 0] = 11;
-            buffer[(i * PacketSizeMax) + 2] = 0x24;
-            fs.Read(buffer, (i * PacketSizeMax) + 3, 8);
-
-            // Compute download checksum
-            for (int j = (i * PacketSizeMax) + 2; j <= (i * PacketSizeMax) + 10; j++)
+            byte[] b = new byte[12];
+            b[0] = 11;
+            b[1] = 0x24;
+            b[2] = 0x24;
+            for (int i = 3; i < 11; i++)
             {
-                buffer[(i * PacketSizeMax) + 1] += buffer[j];
-            }
-        }
+                b[i] = fileBuffer[j];
+                b[1] += b[i];
+                j++;
 
-        return buffer;
+                if(j == fileBuffer.Length)
+                {
+                    break;
+                }
+            }
+
+            sendDataPackets.Add(b);
+        
+        }
     }
     
     // Main thread to transmit packets to target (reading .exe files).
@@ -125,18 +137,9 @@ public class SerialComPort {
 //t        Console.WriteLine("file = {0}", exeFilename);
 
         // Get the executable code in a buffer to build packet(s).
-        var buf = GetCode(exeFilename);
+       GetCode(exeFilename);
 
-        byte[] sendDataPacketFile = new byte[buf.Length];
-
-        for (int n = 0; n < buf.Length; ++n) {
-//t            Console.Write("{0:X2} ", buf[n]);
-            sendDataPacketFile[n] = buf[n];
-        }
-
-           Console.WriteLine("\nsendDataPacket.Length = {0}.", sendDataPacketFile.Length);
-            Console.WriteLine("\nbuf.Length = {0}.", buf.Length);
-            Console.WriteLine("\nfile = {0} loaded.", exeFilename);
+       
 #else
     // Main thread to transmit packets to target (with hardcoded packets).
     public static void Main() {
@@ -146,7 +149,7 @@ public class SerialComPort {
 
         // Create a new SerialPort with the same Arduino Nano settings.
         _serialPort = new SerialPort();
-        _serialPort.PortName = "COM3";
+        _serialPort.PortName = "COM5";
         _serialPort.BaudRate = 9600; ;
         _serialPort.Parity = Parity.None;
         _serialPort.DataBits = 8;
@@ -194,18 +197,25 @@ public class SerialComPort {
             else if (stringComparer.Equals("e", cmd))
             { // download (sendData - small pgm)
 #if LoadFromFile
-                _serialPort.Write(sendDataPacketFile, 0, sendDataPacketFile.Length);
+                foreach (byte[] packet in sendDataPackets)
+                {
+                    // Write the packet
+                    _serialPort.Write(packet, 0, packet.Length);
+
+                    // Sleep for a few ms
+                    Thread.Sleep(50);
+                }
 #else
                 _serialPort.Write(sendDataPacket, 0, 10);
 #endif
             }
             else if (stringComparer.Equals("d", cmd))
             { // getStatus
-                _serialPort.Write(downloadDataPacket, 0, downloadDataPacket.Length);
+                _serialPort.Write(downloadPacket, 0, downloadPacket.Length);
             }
             else if (stringComparer.Equals("r", cmd))
             { // run
-                _serialPort.Write(runPacket, 0, 4);
+                _serialPort.Write(runPacket, 0, runPacket.Length);
                 _run = true;
             }
             else
@@ -263,21 +273,28 @@ public class SerialComPort {
                         }
 
                         size = _serialPort.Read(buffer, 0, 1);
-                        Console.Write(string.Format("{0:X2} ", buffer[0]));
+                   //     Console.Write( (char)buffer[0]);
                     } while ((buffer[0] != 0));
                 }
 
                 if (_run)
                 {
+                    int numOfAcks = 0;
                     while (true)
                     {
                         size = _serialPort.Read(buffer, 0, 1);
 
                         if (buffer[0] == Ack)
                         {
+                            numOfAcks++;
                             size = _serialPort.Read(buffer, 0, 1); // read the zero
                                                                    //t                            Console.Write("running is done + ack/zero " + string.Format("{0:X2} ", buffer[0]));
-                            break;
+                            if(numOfAcks == 2)
+                            {
+                                numOfAcks = 0;
+                                break;
+                            }
+
                         }
                         Console.Write((char)buffer[0]);
                     }

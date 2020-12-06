@@ -13,6 +13,8 @@
 #define CommandReturn_InvalidCmd 0x42
 #define CommandReturn_InvalidAddr 0x43
 #define CommandReturn_MemoryFail 0x44
+#define CommandReturn_ChecksumFail 0x45
+#define CommandReturn_Debug 0x46
 
 #define CommandReceive_Ping 0x20
 #define CommandReceive_Download 0x21
@@ -22,7 +24,7 @@
 #define CommandReceive_Reset 0x25
 
 #define SIZE_STATIC_MEMORY (1024)
-#define MAX_PACKET_SIZE 64
+#define MAX_PACKET_SIZE 16
 
 u8 mem[SIZE_STATIC_MEMORY];
 u8 currentPacket[MAX_PACKET_SIZE];
@@ -43,6 +45,7 @@ u8* readPacket(void);
 
 u8* bsl_start_main_loop(int argc, char** argv)
 {
+	//TODO REMOVE
 	acknowledge();
 
 	while (true)
@@ -52,7 +55,7 @@ u8* bsl_start_main_loop(int argc, char** argv)
 		u8 checksum = calculateChecksum(packet);
 		if (checksum != packet[1])
 		{
-			status = CommandReturn_InvalidCmd;
+			status = CommandReturn_ChecksumFail;
 			notAcknowledge();
 			continue;
 		}
@@ -92,6 +95,8 @@ void processCommand(u8* packet)
 			break;
 		case CommandReceive_Run:
 			acknowledge();
+			processRunCommand(packet);
+			break;
 			break;
 		case CommandReceive_GetStatus:
 			acknowledge();
@@ -103,8 +108,13 @@ void processCommand(u8* packet)
 		case CommandReceive_Reset:
 			reset();
 			break;
+		case CommandReceive_SendData:
+			notAcknowledge();
+			status = CommandReturn_InvalidCmd;
+			break;
 		default:
 			notAcknowledge();
+			VMOut_PutX(command);
 			status = CommandReturn_UnknownCmd;
 
 	}
@@ -115,18 +125,17 @@ void processDownloadCommand(u8* packet)
 {
 	u32 address = 0;
 	u8* addresses = &address;
-	addresses[0] = packet[3];
+	addresses[0] = packet[6];
 	addresses[1] = packet[5];
 	addresses[2] = packet[4];
-	addresses[3] = packet[6];
+	addresses[3] = packet[3];
 
 	u32 incomingProgramSize = 0;
 	u8* incomingProgramSizes = &incomingProgramSize;
-	incomingProgramSizes[0] = currentPacket[7];
-	incomingProgramSizes[1] = currentPacket[8];
-	incomingProgramSizes[2] = currentPacket[9];
-	incomingProgramSizes[3] = currentPacket[10];
-
+	incomingProgramSizes[0] = packet[10];
+	incomingProgramSizes[1] = packet[9];
+	incomingProgramSizes[2] = packet[8];
+	incomingProgramSizes[3] = packet[7];
 
 	if (address >= SIZE_STATIC_MEMORY)
 	{
@@ -151,15 +160,15 @@ void processRunCommand(u8* packet)
 {
 	u32 address = 0;
 	u8* addresses = &address;
-	addresses[0] = packet[3];
+	addresses[0] = packet[6];
 	addresses[1] = packet[5];
 	addresses[2] = packet[4];
-	addresses[3] = packet[6];
-
-	acknowledge();
+	addresses[3] = packet[3];
 
 	VM_Init(mem + address);
 	VM_execute(mem + address);
+
+	acknowledge();
 }
 
 
@@ -194,10 +203,15 @@ void loadProgramSubRoutine(u32 address, u32 programSize)
 		switch (packet[2])
 		{
 			case CommandReceive_SendData:
-				for (j = 2; j < packet[0]; j++)
+				for (j = 3; j < packet[0]; j++)
 				{
 					memToUse[i] = packet[j];
 					i++;
+
+					if (i == programSize)
+					{
+						break;
+					}
 				}
 
 				acknowledge();
@@ -252,6 +266,10 @@ u8 calculateChecksum(u8* packet)
 
 u8* readPacket(void)
 {
+	for (int i = 0; i < MAX_PACKET_SIZE; i++)
+	{
+		currentPacket[i] = 0;
+	}
 	u8 size = readByte();
 	u8 checksum = readByte();
 
@@ -268,7 +286,7 @@ u8* readPacket(void)
 	return currentPacket;
 }
 
-
+// TODO USE HAL
 u8 readByte(void)
 {
 	while (!(UCSR0A & (1 << RXC0)));

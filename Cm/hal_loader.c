@@ -4,5 +4,7 @@
 
 u8* hal_start_main_loop(int argc, char** argv)
 {
+
+	//TODO change this name
 	return bsl_start_main_loop(argc, argv);
 }
