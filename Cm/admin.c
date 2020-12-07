@@ -10,19 +10,22 @@
 
 #include "hal.h"
 #include "hal_out.h"
-#include "hal_loader.h"
-#include "vm.h"
 
+#ifdef SERIAL_LOADER
+#include "serial_loader.h"
+#elif FILE_LOADER
+#include "file_loader.h"
+#endif
+
+#include "vm.h"
 
 int main(int argc, char* argv[]) {
 
     Hal_Init();
-    hal_start_main_loop(argc, argv);
-    
-  
+    enter_loader_main_loop(argc, argv);
 
     return 0;
-}
 
+}
 
 #endif

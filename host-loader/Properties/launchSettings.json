@@ -2,7 +2,7 @@
   "profiles": {
     "host-loader": {
       "commandName": "Project",
-      "commandLineArgs": "\"F:\\projects\\Virtual-Machine-For-Embedded-Systems\\tests_executables\\T01.exe\""
+      "commandLineArgs": "\"Y:\\Users\\Steven\\My Documents\\Projects\\COMP422-Virtual-Machine-For-Embedded-Systems\\tests_executables\\T04.exe\""
     }
   }
 }

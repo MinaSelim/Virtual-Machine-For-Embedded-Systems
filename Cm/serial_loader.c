@@ -1,7 +1,9 @@
 #ifdef __AVR_ATmega328P__
+#include "serial_loader.h"
+
 #include <avr/io.h>
-#include "bsl_loader.h"
 #include "hal_out.h"
+#include "hal_input.h"
 #include "_stdtype.h"
 #include "vm.h"
 
@@ -38,12 +40,11 @@ void loadProgramSubRoutine(u32 address, u32 programSize);
 void acknowledge();
 void notAcknowledge();
 u8 calculateChecksum(u8* packet);
-u8 readByte(void);
 void reset(void);
 u8* readPacket(void);
 
 
-u8* bsl_start_main_loop(int argc, char** argv)
+u8* enter_loader_main_loop(int argc, char** argv)
 {
 
 	while (true)
@@ -271,30 +272,20 @@ u8* readPacket(void)
 	{
 		currentPacket[i] = 0;
 	}
-	u8 size = readByte();
-	u8 checksum = readByte();
+	u8 size = hal_readByte();
+	u8 checksum = hal_readByte();
 
 	currentPacket[0] = size;
 	currentPacket[1] = checksum;
 	int i = 2;
 	for (i = 2; i < size; i++)
 	{
-		currentPacket[i] = readByte();
+		currentPacket[i] = hal_readByte();
 	}
 
-	readByte(); // CLEAR THE 0
+	hal_readByte(); // CLEAR THE 0
 
 	return currentPacket;
 }
-
-// TODO USE HAL
-u8 readByte(void)
-{
-	while (!(UCSR0A & (1 << RXC0)));
-	u8 byte = UDR0;
-	return byte;
-}
-
-
 
 #endif

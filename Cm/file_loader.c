@@ -1,6 +1,6 @@
 #ifdef HOST
 
-#include "bsl_loader.h"
+#include "file_loader.h"
 #include <stdlib.h>  
 #include <stdio.h>  /* for FILE   */
 #include <string.h> /* for strtok */
@@ -109,7 +109,7 @@ const char* GetFileName(const char* path) {
 }
 
 
-u8* bsl_start_main_loop(int argc, char** argv)
+u8* enter_loader_main_loop(int argc, char** argv)
 {
 
 

@@ -25,6 +25,9 @@
     <Filter Include="Tests">
       <UniqueIdentifier>{f2a2b8a0-9044-44eb-898a-c61bdf5845e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\HAL">
+      <UniqueIdentifier>{7d2a8e8e-2568-4663-b42f-a087da574640}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="admin.c">
@@ -48,29 +51,11 @@
     <ClCompile Include="_xtoa.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hal_output.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="bsl_output_host.c">
       <Filter>BSL\BSL Host</Filter>
     </ClCompile>
     <ClCompile Include="bsl_output_ATmega328p.c">
       <Filter>BSL\BSL ATmega328p</Filter>
-    </ClCompile>
-    <ClCompile Include="hal_out.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bsl_loader_host.c">
-      <Filter>BSL\BSL Host</Filter>
-    </ClCompile>
-    <ClCompile Include="hal_loader.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bsl_loader_ATmega328.c">
-      <Filter>BSL\BSL ATmega328p</Filter>
-    </ClCompile>
-    <ClCompile Include="hal_io_reg.c">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bsl_io_reg_host.c">
       <Filter>BSL\BSL Host</Filter>
@@ -90,8 +75,32 @@
     <ClCompile Include="hal_TestInterman0.c">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="hal_interrupt.c">
+    <ClCompile Include="bsl_input_Atmega328p.c">
+      <Filter>BSL\BSL ATmega328p</Filter>
+    </ClCompile>
+    <ClCompile Include="serial_loader.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="file_loader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_input.c">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_interrupt.c">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_io_reg.c">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_out.c">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="hal_output.c">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="bsl_input_host.c">
+      <Filter>BSL\BSL Host</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,12 +137,6 @@
     <ClInclude Include="hal_out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hal_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bsl_loader.h">
-      <Filter>BSL</Filter>
-    </ClInclude>
     <ClInclude Include="hal_io_reg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,6 +147,18 @@
       <Filter>BSL</Filter>
     </ClInclude>
     <ClInclude Include="hal_interrupt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bsl_input.h">
+      <Filter>BSL</Filter>
+    </ClInclude>
+    <ClInclude Include="hal_input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="serial_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
