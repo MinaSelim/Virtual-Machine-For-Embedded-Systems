@@ -21,5 +21,11 @@ void hal_Interrupt_Restore(u16 flags)
 	bsl_Interrupt_Restore(flags);
 }
 
-void hal_Interrupt_SetVector(u8 number, u32 handlerAddr);
-u32 hal_Interrupt_GetVector(u8 number);
+void hal_Interrupt_SetVector(u8 number, u32 handlerAddr)
+{
+	bsl_Interrupt_SetVector(number, handlerAddr);
+}
+u32 hal_Interrupt_GetVector(u8 number)
+{
+	return bsl_Interrupt_GetVector(number);
+}

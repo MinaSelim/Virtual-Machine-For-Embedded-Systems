@@ -17,28 +17,9 @@
 int main(int argc, char* argv[]) {
 
     Hal_Init();
+    hal_start_main_loop(argc, argv);
     
-    u8* mem = 0; // To avoid unitinializad local var used;
-
-    while (true)
-    {
-        mem = hal_load_program(argc, argv);
-
-        if (mem == 0)
-        {
-            VMOut_PutS("error: file too big");
-            continue;
-        }
-
-        VM_Init(mem);
-        VM_execute(mem);
-
-        hal_unload_program();
-
-#ifndef KEEP_ALIVE
-        return 0;
-#endif
-    }
+  
 
     return 0;
 }

@@ -24,6 +24,9 @@
 #define Version     " v0.1.00.1101a "    
 #define Copyright   "Copyright (c) 2001-2020  Michel de Champlain"
 
+
+u8* bsl_load_Program(int argc, char** argv);
+
 // Banner = VMname AppSuffix Version Copyright
 static void DisplayBanner() {
     VMOut_PutS(VMName); VMOut_PutS(AppSuffix); VMOut_PutS(Version); VMOut_PutS(Target); VMOut_PutN();
@@ -105,6 +108,25 @@ const char* GetFileName(const char* path) {
     return pfile;
 }
 
+
+u8* bsl_start_main_loop(int argc, char** argv)
+{
+
+
+        mem = bsl_load_Program(argc, argv);
+
+        if (mem == 0)
+        {
+            VMOut_PutS("error: file too big");
+            return -1;
+        }
+
+        VM_Init(mem);
+        VM_execute(mem);
+
+        return 0;
+    
+}
 
 u8* bsl_load_Program(int argc, char** argv)
 {
