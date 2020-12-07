@@ -45,8 +45,6 @@ u8* readPacket(void);
 
 u8* bsl_start_main_loop(int argc, char** argv)
 {
-	//TODO REMOVE
-	acknowledge();
 
 	while (true)
 	{
@@ -165,9 +163,12 @@ void processRunCommand(u8* packet)
 	addresses[2] = packet[4];
 	addresses[3] = packet[3];
 
+	acknowledge();
+
 	VM_Init(mem + address);
 	VM_execute(mem + address);
 
+	// This is not part of the packet specs, however, we need a way to notify the host that we have completed executing the loaded program
 	acknowledge();
 }
 
