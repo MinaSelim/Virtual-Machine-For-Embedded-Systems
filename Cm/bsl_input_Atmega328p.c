@@ -1,4 +1,5 @@
 #ifdef __AVR_ATmega328P__
+#include "bsl_input.h"
 #include <avr/io.h>
 #include "_stdtype.h"
 
