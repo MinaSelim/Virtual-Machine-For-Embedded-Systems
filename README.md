@@ -1,5 +1,7 @@
 # Virtual-Machine-For-Embedded-Systems
 
+If you run into any difficulties or complications with the instructions, do not hesitate to contact us.
+
 ## Getting started
 ### Prerequisites: 
 1. avr-gcc and avrdude installed and accessible from user path
@@ -40,7 +42,8 @@
 - Implied by testing on target as shown above
 
 ### Testing Task 4
-
+- Implied by testing on target as shown above
+- However, if you would like to test seperately, you may checkout the Task_4 branch and rebuild the solution (just make sure to change the COM port in Cm project configuration)
 
 ### Testing Task 5
 - Implied by testing on target as shown above
