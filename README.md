@@ -28,7 +28,7 @@ If you run into any difficulties or complications with the instructions, do not 
 1. Change the COM number in the avrdude upload line to your own, press Ok and close the properties page
 1. Click on Build -> Build solution (in order to compile, and flash the avr)
 1. Right click the "host-loader" project and click "Set as Startup Project"
-1. Right click on "host-loader" again, click Properties, and change the "Application arguments" to the path for test file you'd like to upload
+1. Right click on "host-loader" again, click Properties, and change the "Application arguments" to the path for test file you'd like to upload, and your COM port for the arduino
 1. You can select any executable from the test executable folder (T01-T12, ST01-ST04, ST01old-ST02old) plz give bonus points 
 1. Click on the run button labeled "host-loader"
 1. Type "d" to let the AVR know it will be receiving a download
